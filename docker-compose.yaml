@@ -1,0 +1,42 @@
+services:
+  envoy:
+    image: envoyproxy/envoy:dev-bdff856f461c2261305b8303285e83d6f2cec627
+    build:
+      dockerfile: "Dockerfile-envoy"
+    ports:
+      - "6000:6000"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+
+  redis-py-client-get:
+    build: 
+      dockerfile: "Dockerfile-redis-py-get"
+    volumes:
+      - ./clients/redis-py/:/app
+
+  redis-py-client-set:
+    build: 
+      dockerfile: "Dockerfile-redis-py-set"
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./clients/redis-py/:/app
+
+  redis-py-client-pub:
+    build: 
+      dockerfile: "Dockerfile-redis-py-pub"
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./clients/redis-py/:/app
+
+  redis-py-client-sub:
+    build: 
+      dockerfile: "Dockerfile-redis-py-sub"
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./clients/redis-py/:/app
+
+  redis-server:
+    image: "redis:alpine"
